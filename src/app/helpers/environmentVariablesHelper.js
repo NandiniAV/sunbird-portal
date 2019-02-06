@@ -2,7 +2,7 @@
 const env = process.env
 const fs = require('fs')
 const packageObj = JSON.parse(fs.readFileSync('package.json', 'utf8'))
-
+process.env.sunbird_environment = 'qa'
 let envVariables = {
   LEARNER_URL: env.sunbird_learner_player_url || 'https://staging.open-sunbird.org/api/',
   CONTENT_URL: env.sunbird_content_player_url || 'https://staging.open-sunbird.org/api/',
@@ -70,5 +70,34 @@ let envVariables = {
 
 envVariables.PORTAL_CASSANDRA_URLS = (env.sunbird_cassandra_urls && env.sunbird_cassandra_urls !== '')
   ? env.sunbird_cassandra_urls.split(',') : ['localhost']
+
+// Forwater related chnages
+const jaldhara_env_variables = {
+  JALDHARA_NEWS_RSS_FEED_URL: env.jaldhara_news_rssfeed_url || 'http://www.indiawaterportal.org/articles/feed',
+  JALDHARA_OPPORTUNITIES_RSS_FEED_URL: env.jaldhara_opportunities_rssfeed_url || 'http://www.indiawaterportal.org/rss-opportunities-feed',
+  JALDHARA_QUESTION_RSS_FEED_URL: env.jaldhara_question_rssfeed_url || 'http://www.indiawaterportal.org/rss-questions-feed',
+  JALDHARA_RESEARCH_PAPERS_RSS_FEED_URL: env.jaldhara_research_papers_rssfeed_url || 'http://www.indiawaterportal.org/rss-research-papers-feeds',
+  ISSUE_FORWATER_URL: env.jaldhara_issue_forwater_url || 'https://issues.jaldhara.in',
+  DISCUSS_FORWATER_URL: env.jaldhara_discuss_forwater_url || 'https://discuss.jaldhara.in',
+
+  // branding
+  LOGO_URL: env.jaldhara_logo || 'https://jaldhara.blob.core.windows.net/portal-logo/dev_sunbird_logo.png',
+  FAVICON_URL: env.jaldhara_favicon || 'https://jaldhara.blob.core.windows.net/portal-logo/dev_favicon.ico',
+  PLAYSTORE_APP_LINK: 'https://play.google.com/store/apps/details?id=in.knowledge.forwater.app&hl=en',
+  //botpress
+  BOT_URL: env.jaldhara_botUrl || 'http://52.66.209.199',
+  BOT_PRESS_ENABLED: env.bot_press_url_enable || 'false',
+
+  // Error handler plugin
+  ERROR_HANDLER_PLUGIN: env.jaldhara_error_handler_plugin// || 'https://4ce64633ee3742ddb72156b15d12701a@sentry.io/1363896'
+}
+
+// Combine both env variables
+envVariables = Object.assign({}, envVariables, jaldhara_env_variables)
+
+// For run development
+if (process.env.NODE_ENV === 'local') {
+  envVariables = Object.assign({}, envVariables, require('./jaldhara.localVariables'))
+}
 
 module.exports = envVariables

@@ -13,12 +13,14 @@ import { CacheService } from 'ng2-cache-service';
 import { DOCUMENT } from '@angular/platform-browser';
 const fingerPrint2 = new Fingerprint2();
 
+import * as Raven from 'raven-js';
 /**
  * main app component
  */
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
   @ViewChild('frameWorkPopUp') frameWorkPopUp;
@@ -118,6 +120,57 @@ export class AppComponent implements OnInit {
     } else {
       this.checkFrameworkSelected();
     }
+    this.initTenantService();
+    // check botpress
+    try {
+      const botpress = (<HTMLInputElement>document.getElementById('isBotPressEnabled')).value;
+      if (botpress.toString() === 'true') {
+        this.loadBotpress();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    this.loadErrorHandlerPlugin();
+  }
+
+
+  loadBotpress() {
+    const botscript: any = document.createElement('script');
+    const burl = (<HTMLInputElement>document.getElementById('botUrl')).value;
+    const url = burl + '/api/botpress-platform-webchat/inject.js';
+    botscript.setAttribute('type', 'text/javascript');
+    botscript.setAttribute('src', url);
+    document.head.appendChild(botscript);
+
+    if (botscript.readyState) {
+      botscript.onreadystatechange = () => {
+        if (botscript.readyState === 'loaded' || botscript.readyState === 'complete') {
+          botscript.onreadystatechange = null;
+          this.getBotpress();
+        }
+      };
+    } else {
+      botscript.onload = () => {
+        this.getBotpress();
+      };
+    }
+  }
+
+  getBotpress() {
+    const burl = (<HTMLInputElement>document.getElementById('botUrl')).value;
+    const logo = (<HTMLInputElement>document.getElementById('logoUrl')).value;
+    window.botpressWebChat.init({
+      host: burl,
+      hideWidget: false,
+      botName: 'ForWater',
+      botAvatarUrl: logo,
+      botConvoTitle: 'ForWater',
+      botConvoDescription: 'Hello, I am a ForWater bot!',
+      backgroundColor: '#ffffff',
+      textColorOnBackground: '#666666',
+      foregroundColor: '#25997D',
+      textColorOnForeground: '#ffffff'
+    });
   }
 
   /**
@@ -160,7 +213,7 @@ export class AppComponent implements OnInit {
       return of(undefined);
     } else {
       return this.router.events.pipe(filter(event => event instanceof NavigationEnd), first(),
-      map(data => this.slug = _.get(this.activatedRoute, 'snapshot.root.firstChild.params.slug')));
+      map(data => this.slug = _.get(this.activatedRoute, 'snapshot.root.firstChild.params.slug') || 'sunbird'));
     }
   }
   /**
@@ -182,7 +235,7 @@ export class AppComponent implements OnInit {
    * set org Details for Anonymous user.
    */
   private setOrgDetails(): Observable<any> {
-    return this.orgDetailsService.getOrgDetails(this.slug).pipe(
+    return this.orgDetailsService.getOrgDetails(this.slug || 'sunbird').pipe(
       tap(data =>  {
         this.orgDetails = data;
         this.channel = this.orgDetails.hashTagId;
@@ -256,6 +309,17 @@ export class AppComponent implements OnInit {
         }
       });
   }
+
+  private initTenantService(slug?: string) {
+    this.tenantService.getTenantInfo(slug);
+    this.tenantService.tenantData$.subscribe(
+      data => {
+        if (data && !data.err) {
+          document.title = data.tenantData.titleName;
+          document.querySelector('link[rel*=\'icon\']').setAttribute('href', data.tenantData.favicon);
+        }
+      });
+  }
   /**
    * updates user framework. After update redirects to library
    */
@@ -288,5 +352,16 @@ export class AppComponent implements OnInit {
         this._document.documentElement.lang = item.value;
         this._document.documentElement.dir =  item.dir;
       });
+  }
+
+  loadErrorHandlerPlugin() {
+    const pluginUrl = (<HTMLInputElement>document.getElementById('error_handler_plugin')).value;
+    if (pluginUrl) {
+      try {
+        Raven.config(pluginUrl).install();
+      } catch (err) {
+        console.log('Unable to load error handler plugin');
+      }
+    }
   }
 }

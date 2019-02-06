@@ -7,10 +7,14 @@ import {Router, ActivatedRoute} from '@angular/router';
  */
 @Component({
   selector: 'app-workspacesidebar',
-  templateUrl: './workspacesidebar.component.html'
+  templateUrl: './workspacesidebar.component.html',
+  styleUrls: ['./workspacesidebar.component.scss']
 })
 export class WorkspacesidebarComponent implements OnInit {
-
+  /**
+* Admin Dashboard access roles
+*/
+addUsersOrgsRole: Array<string>;
   /**
    * To call resource service which helps to use language constant
    */
@@ -102,6 +106,7 @@ export class WorkspacesidebarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.addUsersOrgsRole = this.config.rolesConfig.workSpaceRole.addUsersOrgsRole;
     this.createRole = this.config.rolesConfig.workSpaceRole.createRole;
     this.draftRole = this.config.rolesConfig.workSpaceRole.draftRole;
     this.inreviewRole = this.config.rolesConfig.workSpaceRole.inreviewRole;

@@ -863,6 +863,23 @@
         "locationId": "locationId",
         "locationCode": "locationCode"
       }
+    ],
+    "SAMPLE_USER_HEADERS_CSV": [
+        "firstName",
+        "lastName",
+        "phone",
+        "email",
+        "userName",
+        "password",
+        "phoneVerified",
+        "emailVerified",
+        "roles"
+    ],
+    "SAMPLE_ORGANIZATION_HEADERS_CSV":[
+      "orgName",
+      "isRootOrg",
+      "channel",
+      "description"
     ]
   },
   "contentCreateType": {
@@ -931,6 +948,11 @@
     "filterType": "collaboration",
     "inPageredirectUrl": "workspace/content/collaborating-on/1",
     "searchPageredirectUrl": "workspace/content/collaborating-on/1"
+  },
+  "addUsersOrgs": {
+    "filterType": "addUsersOrgs",
+    "inPageredirectUrl": "workspace/content/addUsersOrgs",
+    "searchPageredirectUrl": "workspace/content/addUsersOrgs"
   },
   "explore": {
     "filterType": "explore",

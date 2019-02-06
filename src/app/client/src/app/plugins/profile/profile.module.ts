@@ -7,7 +7,8 @@ import { SlickModule } from 'ngx-slick';
 import { ProfileRoutingModule } from './profile-routing.module';
 import {
   ProfilePageComponent, ProfileBadgeComponent, UpdateContactDetailsComponent,
-  UpdateUserDetailsComponent
+  UpdateUserDetailsComponent, UserSkillsComponent,
+  EditUserSkillsComponent, ProfileVisibilityComponent, EditExperienceComponent, UserExperienceViewComponent
 } from './components';
 import { SuiModule } from 'ng2-semantic-ui';
 import { CoreModule } from '@sunbird/core';
@@ -17,6 +18,7 @@ import { WebExtensionModule } from '@project-sunbird/web-extensions';
 import { NgInviewModule } from 'angular-inport';
 import { TelemetryModule } from '@sunbird/telemetry';
 import { AvatarModule } from 'ngx-avatar';
+import { UserRegisteredComponent, OrgRegisteredComponent } from './components';
 @NgModule({
   imports: [
     CommonModule,
@@ -34,7 +36,8 @@ import { AvatarModule } from 'ngx-avatar';
     AvatarModule,
     SharedFeatureModule
   ],
-  declarations: [ProfilePageComponent, ProfileBadgeComponent, UpdateContactDetailsComponent, UpdateUserDetailsComponent],
+  declarations: [ProfilePageComponent, ProfileBadgeComponent, UpdateContactDetailsComponent, UpdateUserDetailsComponent,
+    UserRegisteredComponent, OrgRegisteredComponent, UserSkillsComponent, EditUserSkillsComponent, ProfileVisibilityComponent, UserExperienceViewComponent, EditExperienceComponent],
   providers: [ProfileService],
   entryComponents: [ProfileBadgeComponent]
 })

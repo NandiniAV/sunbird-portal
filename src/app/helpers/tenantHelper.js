@@ -59,7 +59,8 @@ module.exports = {
     let protocol = req.headers['x-forwarded-proto'] || req.protocol
     let baseUrl = protocol + '://' + host + (port === '' ? '' : ':' + port)
     let responseObj = {
-      titleName: configHelper.getConfig('sunbird_instance_name')
+      // titleName: configHelper.getConfig('sunbird_instance_name')
+      titleName: envHelper.PORTAL_TITLE_NAME
     }
     if (tenantId) {
       async.parallel({

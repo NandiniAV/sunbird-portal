@@ -1,9 +1,16 @@
 <div [appTelemetryImpression]="telemetryImpression">
-
-<app-prominent-filter [pageId]="'resource-page'" *ngIf="initFilters" [filterEnv]="filterType"  [ignoreQuery]="['key']" 
+  <app-prominent-filter [pageId]="'resource-page'" *ngIf="initFilters" [filterEnv]="filterType"  [ignoreQuery]="['key']" 
     [accordionDefaultOpen]=true [isShowFilterLabel]=true [showSearchedParam]=true [isShowFilterLabel]=true [hashTagId]="hashTagId" (prominentFilter)="getFilters($event)"></app-prominent-filter>
 
-<div class="ui container">
+  <div class="ui container resourcepage">
+    <div class="ui grid stackable my-0">
+      <div class="twelve wide column">
+        <app-sort-by appTelemetryInteract [telemetryInteractEdata]="sortIntractEdata" [sortingOptions]="sortingOptions" [url]="redirectUrl"></app-sort-by>
+      </div>
+    </div>
+  </div>
+
+<div class="ui container resourcepage">
   <div class="ui grid stackable my-0">
     <div class="twelve wide column" *ngFor="let section of carouselData;let last = last" [ngClass]="{'last mb-30':last}">
       <app-page-section (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="section" (viewAll)="viewAll($event)"></app-page-section>

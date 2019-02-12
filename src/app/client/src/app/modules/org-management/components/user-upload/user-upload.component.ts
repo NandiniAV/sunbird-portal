@@ -118,7 +118,7 @@ export class UserUploadComponent implements OnInit, OnDestroy {
       if (data.redirectUrl) {
         this.redirectUrl = data.redirectUrl;
       } else {
-        this.redirectUrl = '/home';
+        this.redirectUrl = '/workspace/content/addUsersOrgs';
       }
     });
     this.uploadUserForm = this.sbFormBuilder.group({
@@ -157,6 +157,7 @@ export class UserUploadComponent implements OnInit, OnDestroy {
   public redirect() {
     this.fileName = '';
     this.processId = '';
+    this.uploadUserForm.reset();
     this.router.navigate([this.redirectUrl]);
   }
   /**

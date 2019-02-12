@@ -1,8 +1,16 @@
 <div [appTelemetryImpression]="telemetryImpression">
-<app-prominent-filter [formAction]="'filter'" [frameworkName]="frameWorkName" [pageId]="'course-page'" *ngIf="initFilters" [filterEnv]="filterType"  [ignoreQuery]="['key']" 
+  <app-prominent-filter [formAction]="'filter'" [frameworkName]="frameWorkName" [pageId]="'course-page'" *ngIf="initFilters" [filterEnv]="filterType"  [ignoreQuery]="['key']" 
   [accordionDefaultOpen]=true [isShowFilterLabel]=true [showSearchedParam]=true [isShowFilterLabel]=true [hashTagId]="hashTagId" (prominentFilter)="getFilters($event)"></app-prominent-filter>
 
-  <div class="ui container">
+  <div class="ui container resourcepage">
+    <div class="ui grid stackable my-0">
+      <div class="twelve wide column">
+        <app-sort-by appTelemetryInteract [telemetryInteractEdata]="sortIntractEdata" [sortingOptions]="sortingOptions" [url]="redirectUrl"></app-sort-by>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui container learnpage">
   <div class="ui grid stackable my-0">
     <div class="twelve wide column" *ngIf="enrolledSection?.contents?.length">
       <app-page-section *ngIf="enrolledSection?.contents?.length" (visits)="prepareVisits($event)" [section]="enrolledSection" (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-page-section>

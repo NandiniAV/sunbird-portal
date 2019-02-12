@@ -1,4 +1,3 @@
-
 import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
 import * as  iziModal from 'izimodal/js/iziModal';
@@ -39,6 +38,7 @@ export class CollectionEditorComponent implements OnInit, OnDestroy {
   public ownershipType: Array<string>;
   public queryParams: object;
   resource_framework: string;
+  blist: any;
   /**
   * Default method of classs CollectionEditorComponent
   * @param {ResourceService} resourceService To get language constant
@@ -174,8 +174,15 @@ export class CollectionEditorComponent implements OnInit, OnDestroy {
       overlay: false,
       overlayColor: '',
       history: false,
+      onOpening: () => {
+        const bres = document.getElementById('collectionEditor');
+        if (bres !== null) {
+          document.body.style.overflowY = 'hidden';
+        }
+      },
       onClosing: () => {
         this._zone.run(() => {
+          document.body.style.overflowY = 'auto';
           this.closeModal();
         });
       }

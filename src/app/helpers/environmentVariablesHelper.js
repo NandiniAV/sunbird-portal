@@ -71,4 +71,6 @@ let envVariables = {
 envVariables.PORTAL_CASSANDRA_URLS = (env.sunbird_cassandra_urls && env.sunbird_cassandra_urls !== '')
   ? env.sunbird_cassandra_urls.split(',') : ['localhost']
 
+// envVariables = Object.assign({}, envVariables, require('./jaldharalocalVariablesHelpers'))
+
 module.exports = envVariables

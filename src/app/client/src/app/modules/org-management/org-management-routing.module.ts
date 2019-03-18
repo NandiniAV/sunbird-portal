@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {
-  CreateOrgTypeComponent, ViewOrgTypeComponent, OrganizationUploadComponent,
-  UserUploadComponent, BulkUploadComponent, StatusComponent
-} from './components';
+import { CreateOrgTypeComponent, ViewOrgTypeComponent } from './components';
 import { AuthGuard } from '../core/guard/auth-gard.service';
 const telemetryEnv = 'org-management';
 

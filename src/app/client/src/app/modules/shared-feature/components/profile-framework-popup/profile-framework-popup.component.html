@@ -12,7 +12,7 @@
           <label>{{field.label}}</label>
           <div class="field">
             <sui-select id={{field.code}} [isSearchable]="false" class="selection" [(ngModel)]="selectedOption[field.code]"
-              [options]="options" (ngModelChange)="handleFieldChange($event, field)" name={{field.code}}>
+              [options]="options"  name={{field.code}}>
               <sui-select-option *ngFor="let option of field.range" [value]="option.name"></sui-select-option>
             </sui-select>
           </div>
@@ -21,7 +21,7 @@
           <label>{{field.label}}</label>
           <div class="field">
             <sui-multi-select id={{field.code}} [isSearchable]="false" class="selection" [(ngModel)]="selectedOption[field.code]"
-              [options]="options" (ngModelChange)="handleFieldChange($event, field)" name={{field.code}} #multiSelect>
+              [options]="options"  name={{field.code}} #multiSelect>
               <sui-select-option *ngFor="let option of field.range" [value]="option.name"></sui-select-option>
             </sui-multi-select>
           </div>
@@ -32,6 +32,6 @@
     </div>
   </div>
   <div class="actions text-ac">
-    <button class="ui primary button" [disabled]="!showButton" (click)="onSubmitForm()">{{buttonLabel}}</button>
+    <button class="ui primary button" (click)="onSubmitForm()">{{buttonLabel}}</button>
   </div>
 </sui-modal>

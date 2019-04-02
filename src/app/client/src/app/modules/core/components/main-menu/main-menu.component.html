@@ -56,6 +56,9 @@
 			routerLink="explore-course">
 			{{resourceService?.frmelmnts?.tab?.courses}}
 		</a>
+		<a appTelemetryInteract [telemetryInteractObject]="telemetryInteractObject" [telemetryInteractEdata]="signUpInteractEdata" 
+		 class="ui item font-weight-bold primary-color" routerLink="/signup">{{resourceService.frmelmnts?.btn?.signup}}</a>
+
 		<span class="item divider">|</span>
 		<a class="item font-weight-bold primary-color" 
 		  href="/resources" >

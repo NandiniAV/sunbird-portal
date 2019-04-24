@@ -118,7 +118,7 @@ export class UserUploadComponent implements OnInit, OnDestroy {
       if (data.redirectUrl) {
         this.redirectUrl = data.redirectUrl;
       } else {
-        this.redirectUrl = '/home';
+        this.redirectUrl = '/workspace/content/addUsersOrgs';
       }
     });
     this.uploadUserForm = this.sbFormBuilder.group({
@@ -157,6 +157,7 @@ export class UserUploadComponent implements OnInit, OnDestroy {
   public redirect() {
     this.fileName = '';
     this.processId = '';
+    this.uploadUserForm.reset();
     this.router.navigate([this.redirectUrl]);
   }
   /**
@@ -168,6 +169,7 @@ export class UserUploadComponent implements OnInit, OnDestroy {
       quoteStrings: '"',
       decimalseparator: '.',
       showLabels: true,
+      headers: this.config.appConfig.ADMIN_UPLOAD.SAMPLE_USER_HEADERS_CSV,
       useBom: false
     };
     const csv = new Angular2Csv(this.config.appConfig.ADMIN_UPLOAD.SAMPLE_USER_CSV, 'Sample_Users', options);

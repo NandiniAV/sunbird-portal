@@ -85,13 +85,14 @@ export class OrganizationUploadComponent implements OnInit, OnDestroy {
       if (data.redirectUrl) {
         this.redirectUrl = data.redirectUrl;
       } else {
-        this.redirectUrl = '/home';
+        this.redirectUrl = '/workspace/content/addUsersOrgs';
       }
     });
     this.orgUploadInstructions = [
       { instructions: this.resourceService.frmelmnts.instn.t0013 },
       { instructions: this.resourceService.frmelmnts.instn.t0002 },
       { instructions: this.resourceService.frmelmnts.instn.t0007 },
+      { instructions: this.resourceService.frmelmnts.instn.tjd0006 },
       { instructions: this.resourceService.frmelmnts.instn.t0021 },
       {
         instructions: this.resourceService.frmelmnts.instn.t0022,
@@ -144,6 +145,7 @@ export class OrganizationUploadComponent implements OnInit, OnDestroy {
       quoteStrings: '"',
       decimalseparator: '.',
       showLabels: true,
+      headers: this.config.appConfig.ADMIN_UPLOAD.SAMPLE_ORGANIZATION_HEADERS_CSV,
       useBom: false
     };
     const csv = new Angular2Csv(this.config.appConfig.ADMIN_UPLOAD.SAMPLE_ORGANIZATION_CSV, 'Sample_Organizations', options);

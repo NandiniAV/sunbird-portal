@@ -135,6 +135,8 @@ export class DialCodeComponent implements OnInit, OnDestroy {
           const metaData = this.configService.appConfig.GetPage.metaData;
           const dynamicFields = this.configService.appConfig.GetPage.dynamicFields;
           this.searchResults = this.utilService.getDataForCard(apiResponse.result.content, constantData, dynamicFields, metaData);
+        } else {
+          this.toasterService.error(this.resourceService.messages.stmsg.m0112);
         }
       },
       err => {

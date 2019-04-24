@@ -29,6 +29,8 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   queryParam: any = {};
   showExploreHeader = false;
   showQrmodal = false;
+  confluenceIssueUrl: string;
+  confluenceDiscussUrl: string;
   /**
    * tenant name
    */
@@ -41,6 +43,10 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
    * Sui dropdown initiator
    */
   isOpen: boolean;
+  /**
+   * Workspace access roles
+   */
+  workSpaceRole: Array<string>;
   /**
    * Admin Dashboard access roles
    */
@@ -102,6 +108,9 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   userDataSubscription: Subscription;
   exploreRoutingUrl: string;
   pageId: string;
+enableSignup = true;
+  notificationSubscription: Subscription;
+  notificationCount: any;
   /*
   * constructor
   */
@@ -148,6 +157,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
       this.queryParam = { ...queryParams };
       this.key = this.queryParam['key'];
     });
+    this.workSpaceRole = this.config.rolesConfig.headerDropdownRoles.workSpaceRole;
     this.adminDashboard = this.config.rolesConfig.headerDropdownRoles.adminDashboard;
     this.announcementRole = this.config.rolesConfig.headerDropdownRoles.announcementRole;
     this.myActivityRole = this.config.rolesConfig.headerDropdownRoles.myActivityRole;
@@ -177,12 +187,23 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
       this.resourceService.getResource(data);
     }
   }
+  navigateToWorkspace() {
+    const authroles = this.permissionService.getWorkspaceAuthRoles();
+    if (authroles) {
+      this.router.navigate([authroles.url]);
+    }
+  }
   navigateToHome() {
     if (this.userService.loggedIn) {
       this.router.navigate(['resources']);
     } else {
       this.router.navigate(['']);
     }
+  }
+  navigateToAnnoucements() {
+    this.notificationCount = 0;
+    localStorage.setItem(this.userService.userid, this.notificationCount);
+    this.router.navigate(['../announcement/inbox/1']);
   }
   onEnter(key) {
     this.key = key;
@@ -259,9 +280,11 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.tenantDataSubscription) {
       this.tenantDataSubscription.unsubscribe();
+    this.notificationSubscription.unsubscribe();
     }
     if (this.userDataSubscription) {
       this.userDataSubscription.unsubscribe();
+    this.notificationSubscription.unsubscribe();
     }
   }
   showSideBar() {

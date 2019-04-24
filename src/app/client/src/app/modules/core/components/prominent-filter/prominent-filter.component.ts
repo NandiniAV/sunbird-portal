@@ -17,6 +17,7 @@ import { first, mergeMap, map, tap, catchError, filter } from 'rxjs/operators';
 })
 export class ProminentFilterComponent implements OnInit, OnDestroy {
   @Input() filterEnv: string;
+  @Input() redirectUrl: string;
   @Input() accordionDefaultOpen: boolean;
   @Input() isShowFilterLabel: boolean;
   @Input() hashTagId = '';

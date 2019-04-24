@@ -8,6 +8,7 @@ import {
 import { Subscription } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import * as $ from 'jquery';
 import { MyContributions } from '../../interfaces';
 import * as _ from 'lodash';
 import { SubscriptionLike as ISubscription } from 'rxjs';
@@ -40,6 +41,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   showMoreRoles = true;
   showMoreTrainings = true;
   isCustodianOrgUser = false;
+  workSpaceRole: Array<string>;
   /**
    * Contains default limit to show awards
    */
@@ -169,6 +171,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   editMobileInteractEdata: IInteractEventEdata;
   editEmailInteractEdata: IInteractEventEdata;
   telemetryInteractObject: IInteractEventObject;
+   admin: Array<string>;
   constructor( private cacheService: CacheService, public resourceService: ResourceService, public coursesService: CoursesService,
     public permissionService: PermissionService, public toasterService: ToasterService, public profileService: ProfileService,
     public userService: UserService, public configService: ConfigService, public router: Router, public utilService: UtilService,
@@ -206,6 +209,8 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
           this.getAttendedTraining();
         }
       });
+    this.workSpaceRole = this.configService.rolesConfig.headerDropdownRoles.workSpaceRole;
+    this.admin = this.configService.rolesConfig.headerDropdownRoles.adminDashboard;
     this.telemetryImpression = {
       context: {
         env: this.activatedRoute.snapshot.data.telemetry.env
@@ -459,4 +464,10 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     }
   }
 
+  navigateToWorkspace() {
+    const authroles = this.permissionService.getWorkspaceAuthRoles();
+    if (authroles) {
+      this.router.navigate([authroles.url]);
+    }
+  }	
 }

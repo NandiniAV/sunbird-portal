@@ -990,26 +990,14 @@
   "ADMIN_UPLOAD": {
     "SAMPLE_USER_CSV": [
       {
-        "firstName": "firstName",
-        "lastName": "lastName",
-        "phone": "phone",
-        "email": "email",
-        "userName": "userName",
-        "externalId": "externalId",
-        "externalIdType": "externalIdType",
-        "externalIdProvider": "externalIdProvider",
-        "externalIds": "externalIds",
-        "phoneVerified": "phoneVerified",
-        "emailVerified": "emailVerified",
-        "roles": "roles",
-        "position": "position",
-        "grade": "grade",
-        "location": "location",
-        "dob": "dob",
-        "gender": "gender",
-        "language": "language",
-        "profileSummary": "profileSummary",
-        "subject": "subject"
+        "firstName": "NAME",
+        "phone": "MOBILE PHONE",
+        "email": "EMAIL",
+        "rootOrg": "SCHOOL ID",
+        "userType": "USER_TYPE",
+        "roles": "ROLES",
+        "userName": "USER ID",
+        "externalId": "SCHOOL EXTERNAL ID"
       }
     ],
     "SAMPLE_ORGANIZATION_CSV": [

@@ -9,13 +9,13 @@ import { FrameworkService, FormService, PermissionService, UserService, OrgDetai
 import * as _ from 'lodash';
 import { CacheService } from 'ng2-cache-service';
 import { IInteractEventEdata } from '@sunbird/telemetry';
-
 @Component({
   selector: 'app-data-driven-filter',
   templateUrl: './data-driven-filter.component.html'
 })
 export class DataDrivenFilterComponent implements OnInit, OnChanges, OnDestroy {
   @Input() filterEnv: string;
+  @Input() redirectUrl: string;
   @Input() accordionDefaultOpen: boolean;
   @Input() isShowFilterLabel: boolean;
   @Input() hashTagId: string;

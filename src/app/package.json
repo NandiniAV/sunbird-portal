@@ -1,6 +1,6 @@
 {
   "name": "player",
-  "author": "sunbird",
+  "author": "forwater",
   "version": "1.14.0",
   "buildNumber": "1",
   "private": true,
@@ -64,7 +64,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "server": "gulp update:index:file && node server",
+    "dev": "gulp update:index:file && nodemon server",
     "test-announcements": "mocha 'test/announcements/server/**/*.js' --reporter mochawesome",
     "preinstall": "npm install ./libs/sb_api_interceptor && npm install ./libs/sb_cache_manager  && npm install ./libs/sb_telemetry_util",
     "validate": "npm ls",

@@ -75,6 +75,7 @@ export class MainMenuComponent implements OnInit {
     }
     this.setInteractData();
     this.getUrl();
+    this.workSpaceRole = this.config.rolesConfig.headerDropdownRoles.workSpaceRole;
     this.userService.userData$.pipe(first()).subscribe(
       (user: IUserData) => {
         if (user && !user.err) {

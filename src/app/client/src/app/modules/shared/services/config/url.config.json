@@ -41,7 +41,8 @@
       "GET_USER_BY_KEY": "user/v1/get",
       "CREATE_V2": "user/v2/create",
       "LOCATION_SEARCH": "data/v1/location/search",
-      "TYPE": "user/v1/type/list"
+      "ADD_ORG": "org/v1/create",
+      "ADD_MEMBERTOORG": "org/v1/member/add"
     },
     "COMPOSITE": {
       "SEARCH": "composite/v1/search"

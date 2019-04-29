@@ -116,6 +116,10 @@ require('./routes/contentRoutes.js')(app)
 // Local proxy for content and learner service
 require('./proxy/localProxy.js')(app)
 
+// ForWater related change
+// Used for show rss feed
+require('./helpers/rssfeed/rssfeed.news.controller')(app)
+
 app.all('/v1/user/session/create', (req, res) => trampolineServiceHelper.handleRequest(req, res, keycloak))
 
 app.get('/v1/user/session/start/:deviceId', (req, res) => {

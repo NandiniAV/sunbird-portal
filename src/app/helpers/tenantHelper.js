@@ -91,9 +91,9 @@ module.exports = {
           }, function (err, results) {
             if (err) { }
             responseObj.logo = results.logo
-              ? results.logo : baseUrl + '/assets/images/sunbird_logo.png'
+              ? results.logo : baseUrl + '/assets/images/forwater.png'
             responseObj.poster = results.poster
-              ? results.poster : baseUrl + '/assets/images/sunbird_logo.png'
+              ? results.poster : baseUrl + '/assets/images/forwater.png'
             responseObj.favicon = results.favicon
               ? results.favicon : baseUrl + '/assets/images/favicon.ico'
             responseObj.appLogo = results.appLogo

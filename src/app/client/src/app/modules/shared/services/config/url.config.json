@@ -160,6 +160,13 @@
     "OTP": {
       "GENERATE": "otp/v1/generate",
       "VERIFY": "otp/v1/verify"
+    },
+    "RSSFEED": {
+      "RSS_PREFIX": "/rssfeed",
+      "NEWS": "/news",
+      "JOBS": "/opportunities",
+      "QUESTIONS": "/questions",
+      "RESEARCH_PAPERS": "/research/papers"
     }
   }
 }

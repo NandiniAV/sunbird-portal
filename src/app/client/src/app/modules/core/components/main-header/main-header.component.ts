@@ -195,7 +195,7 @@ enableSignup = true;
   }
   navigateToHome() {
     if (this.userService.loggedIn) {
-      this.router.navigate(['resources']);
+      this.router.navigate(['home']);
     } else {
       this.router.navigate(['']);
     }

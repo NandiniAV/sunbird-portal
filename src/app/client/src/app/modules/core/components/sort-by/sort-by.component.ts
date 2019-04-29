@@ -65,7 +65,7 @@ export class SortByComponent implements OnInit {
     this.sortIcon = !this.sortIcon;
     this.queryParams['sortType'] = this.sortIcon ? 'desc' : 'asc';
     this.queryParams['sort_by'] = this.sortByOption;
-    this.route.navigate([], {relativeTo: this.activatedRoute.parent, queryParams: this.queryParams });
+    this.route.navigate([this.url], {relativeTo: this.activatedRoute.parent, queryParams: this.queryParams });
   }
 
 }

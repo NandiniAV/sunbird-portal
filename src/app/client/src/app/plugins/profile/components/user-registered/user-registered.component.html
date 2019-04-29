@@ -1,21 +1,14 @@
-<sui-modal *ngIf="showModal" [isClosable]="true" [mustScroll]="true" [size]="'large'" (dismissed)="closeModal()" #addUserModal>
-  <div class="header">
-    <div class="ui grid">
-      <div class="twelve wide tablet computer only column">
-        <span class="ui header">User Registration</span>
-      </div>
-      <!-- <div class="one wide tablet computer only column">
-        <i class="close icon" (click)="closeModal()"></i>
-      </div> -->
-      <div class="ten wide mobile only column">
-        <span class="ui header">User Registration</span>
-      </div>
-      <!-- <div class="two wide mobile only column">
-        <i class="close icon" (click)="closeModal()"></i>
-      </div> -->
-    </div>
+<sui-modal *ngIf="showModal" [isClosable]="true" [mustScroll]="true" [size]="'large'" class="sb-modal custom-sui-modal"
+ (dismissed)="closeModal()" #addUserModal>
+  <!--Header-->
+  <div class="sb-modal-header twelve wide tablet computer only column" [appTelemetryImpression]="telemetryImpression">
+  User Registration
   </div>
-  <div class="content">
+  <div class="sb-modal-header ten wide mobile only column" [appTelemetryImpression]="telemetryImpression">
+  User Registration
+  </div>
+  <!--Content-->
+  <div class="sb-modal-content">
     <form *ngIf="!showLoader" [formGroup]="userReg" autocomplete="off" id="userREg" class="ui form">
       <div class="field">
         <div class=" two fields">
@@ -107,8 +100,9 @@
     <div>
     </div>
   </div>
-  <div class="actions">
+  <!--Actions-->
+  <div class="sb-modal-actions">
     <div *ngIf="showcommonerror && !(this.userReg.value.phone || this.userReg.value.email)" class="pull-left ui basic red label">Please provide either phone number or email id</div>
-    <button [disabled]="userReg.invalid || UserExists" class="ui primary button" (click)="onSubmitForm()">Add User</button>
-  </div>
+    <button [disabled]="userReg.invalid || UserExists" class="sb-btn sb-btn-normal sb-btn-primary" (click)="onSubmitForm()">Add User</button>
+</div>
 </sui-modal>

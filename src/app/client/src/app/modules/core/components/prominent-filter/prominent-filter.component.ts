@@ -6,7 +6,7 @@ import {
 } from '@sunbird/shared';
 import { Component, OnInit, Input, Output, EventEmitter, ApplicationRef, ChangeDetectorRef, OnDestroy, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FrameworkService, FormService, PermissionService, OrgDetailsService } from './../../services';
+import { FrameworkService, FormService, PermissionService, OrgDetailsService, ContentService } from './../../services';
 import * as _ from 'lodash';
 import { CacheService } from 'ng2-cache-service';
 import { IInteractEventEdata } from '@sunbird/telemetry';
@@ -80,6 +80,13 @@ export class ProminentFilterComponent implements OnInit, OnDestroy {
   isFiltered = true;
   applyFilterInteractEdata: IInteractEventEdata;
   private selectedLanguage: string;
+
+  orgData: any;
+  selectedOrganization: any;
+  selectedOrgMap: { id, orgName };
+  selectedOrgData: any;
+  topicslist: any;
+  frameworklist: any;
   /**
    *
     * Constructor to create injected service(s) object
@@ -101,7 +108,7 @@ export class ProminentFilterComponent implements OnInit, OnDestroy {
     private browserCacheTtlService: BrowserCacheTtlService,
     private utilService: UtilService,
     private orgDetailsService: OrgDetailsService,
-
+    public content: ContentService
   ) {
     this.configService = configService;
     this.resourceService = resourceService;
@@ -164,7 +171,7 @@ export class ProminentFilterComponent implements OnInit, OnDestroy {
     return this.fetchFrameWorkDetails().pipe(
       mergeMap((frameworkDetails: any) => {
         this.categoryMasterList = frameworkDetails.categoryMasterList;
-        this.framework = frameworkDetails.code;
+        this.framework = frameworkDetails.code || frameworkDetails.framework;
         return this.getFormDetails();
       }),
       mergeMap((formData: any) => {
@@ -337,6 +344,88 @@ export class ProminentFilterComponent implements OnInit, OnDestroy {
     if (this.resourceDataSubscription) {
       this.resourceDataSubscription.unsubscribe();
     }
+  }
+
+  // adding topics & org fields to filter form
+  /**  Org Search without offset.*/
+  orgSearch(): Observable<ServerResponse> {
+    const option = {
+      url: this.configService.urlConFig.URLS.ADMIN.ORG_SEARCH,
+      data: {
+        request: {
+          filters: {},
+          sort_by: {orgName: 'asc'}
+        }
+      }
+    };
+    return this.content.post(option);
+  }
+  getOrgList() {
+    this.orgSearch().subscribe((resp) => {
+      this.orgData = resp.result && resp.result.response && resp.result.response.content || [];
+      this.orgData = _.map(this.orgData, (obj) => {
+        return { 'id': obj.id, 'orgName': obj.orgName };
+      });
+      this.getFormDetails();
+    });
+  }
+  addTopicORgField() {
+    this.frameworkService.frameworkData$.subscribe(
+      res => {
+      if (res && res.frameworkdata) {
+        this.frameworklist = res.frameworkdata;
+
+        for (let i = 0; i < this.frameworklist.length; i++) {
+          if (this.frameworklist[i].code === 'topic') {
+            const obj = {
+              code: 'topic',
+              dataType: 'text',
+              description: 'Topic',
+              displayProperty: 'Editable',
+              editable: true,
+              index: 4,
+              inputType: 'select',
+              label: 'Topic',
+              name: 'Topic',
+              range: this.frameworklist[i].terms,
+              renderingHints: {semanticColumnWidth: 'four'},
+              required: false,
+              visible: true
+            };
+            this.topicslist = this.frameworklist[i].terms;
+            this.formFieldProperties.push(obj);
+          }
+        }
+      }
+    });
+    if (this.orgData.length ) {
+      const morglist = [];
+      for (let i = 0 ; i < this.orgData.length;  i++) {
+        const orgdata = {
+          id: this.orgData[i].id,
+          name: this.orgData[i].orgName
+        };
+        morglist.push(orgdata);
+      }
+      const obj = {
+        code: 'organisation',
+        dataType: 'text',
+        description: 'Organisation',
+        displayProperty: 'Editable',
+        editable: true,
+        index: 5,
+        inputType: 'select',
+        label: 'Organisation',
+        name: 'Organisation',
+        range: morglist,
+        renderingHints: {semanticColumnWidth: 'four'},
+        required: false,
+        visible: true
+      };
+      this.formFieldProperties.push(obj);
+    }
+
+    return  this.formFieldProperties;
   }
 }
 

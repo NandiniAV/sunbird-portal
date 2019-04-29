@@ -98,7 +98,14 @@ function getLocals(req, callback) {
   locals.deviceRegisterApi = envHelper.DEVICE_REGISTER_API
   locals.googleCaptchaSiteKey = envHelper.sunbird_google_captcha_site_key
   locals.videoMaxSize = envHelper.sunbird_portal_video_max_size
-  locals.reportsLocation = envHelper.sunbird_azure_report_container_name
+  locals.reportsLocation = envHelper.sunbird_azure_report_container_name  
+  // Forwater related variables
+  locals.editorChannelFilter = envHelper.EDITOR_CHANNEL_FILTER_TYPE
+  locals.issueForwateUrl = envHelper.ISSUE_FORWATER_URL
+  locals.discussForwaterUrl = envHelper.DISCUSS_FORWATER_URL
+  //branding
+  locals.logoUrl = envHelper.LOGO_URL
+  locals.faviconUrl = envHelper.FAVICON_URL
   callback(null, locals)
 }
 

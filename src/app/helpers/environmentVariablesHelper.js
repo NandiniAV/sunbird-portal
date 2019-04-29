@@ -82,7 +82,7 @@ const jaldhara_env_variables = {
   DISCUSS_FORWATER_URL: env.jaldhara_discuss_forwater_url || 'https://discuss.jaldhara.in',
 
   // branding
-  LOGO_URL: env.jaldhara_logo || 'https://jaldhara.blob.core.windows.net/portal-logo/dev_sunbird_logo.png',
+  LOGO_URL: env.jaldhara_logo || 'https://jaldhara.blob.core.windows.net/portal-logo/forwater.png',
   FAVICON_URL: env.jaldhara_favicon || 'https://jaldhara.blob.core.windows.net/portal-logo/dev_favicon.ico',
 
   // Error handler plugin
@@ -92,7 +92,7 @@ const jaldhara_env_variables = {
 envVariables = Object.assign({}, envVariables, jaldhara_env_variables)
 
 // For run development
- if (process.env.NODE_ENV === 'local') {
+  if (process.env.NODE_ENV === 'local') {
   envVariables = Object.assign({}, envVariables, require('./jaldharalocalVariablesHelpers'))
- }
+  }
 module.exports = envVariables

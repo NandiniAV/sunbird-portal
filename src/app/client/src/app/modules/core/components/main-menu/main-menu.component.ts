@@ -1,10 +1,12 @@
-import { ConfigService, ResourceService, IUserData, IUserProfile } from '@sunbird/shared';
+import { ConfigService, ResourceService, IUserData, IUserProfile, ServerResponse } from '@sunbird/shared';
 import { Component, OnInit } from '@angular/core';
-import { UserService, PermissionService } from '../../services';
+import { UserService, PermissionService, TenantService} from '../../services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
-import { first, filter } from 'rxjs/operators';
+import { first, filter, switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { AnnouncementService } from '../../services/announcement/announcement.service';
 import * as _ from 'lodash';
 declare var jQuery: any;
 
@@ -54,17 +56,56 @@ export class MainMenuComponent implements OnInit {
   showExploreHeader = false;
   helpLinkVisibility: string;
   signInIntractEdata: IInteractEventEdata;
+  confluenceIssueUrl: string;
+  confluenceDiscussUrl: string;
+  /**
+   * reference of tenant service.
+   */
+  public tenantService: TenantService;
+  /**
+   * To make inbox API calls
+   */
+  private announcementService: AnnouncementService;
+  notificationSubscription: Subscription;
+  notificationCount: any;
+  inboxData: any;
   /*
   * constructor
   */
   constructor(resourceService: ResourceService, userService: UserService, router: Router,
-     permissionService: PermissionService, config: ConfigService, private cacheService: CacheService) {
+     permissionService: PermissionService, config: ConfigService, private cacheService: CacheService, tenantService: TenantService,
+     announcementService: AnnouncementService) {
     this.resourceService = resourceService;
     this.userService = userService;
     this.permissionService = permissionService;
     this.router = router;
     this.config = config;
+    this.announcementService = announcementService;
+    this.tenantService = tenantService;
     this.workSpaceRole = this.config.rolesConfig.headerDropdownRoles.workSpaceRole;
+    this.confluenceIssueUrl = (<HTMLInputElement>document.getElementById('issueForwateUrl')).value;
+    this.confluenceDiscussUrl = (<HTMLInputElement>document.getElementById('discussForwaterUrl')).value;
+    this.router.events.subscribe((val) => {
+      // to get announcement count
+      if (val instanceof NavigationEnd && val.url.indexOf('announcement') === -1) {
+        if (this.userService.loggedIn) {
+          const option = {
+            pageNumber: 1,
+            limit: 1000
+          };
+          this.announcementService.getInboxData(option).pipe(
+            switchMap(() => this.announcementService.getInboxData(option))
+          ).subscribe(
+            (apiResponse: ServerResponse) => {
+              this.inboxData = this.inboxData = apiResponse.result && apiResponse.result.announcements &&
+              apiResponse.result.announcements.filter(data => data.received === false) || [];
+              const currentVal = parseInt(localStorage.getItem(this.userService.userid) || '0', 0);
+              this.notificationCount = this.inboxData.length + currentVal;
+            }
+          );
+        }
+      }
+    });
   }
 
   ngOnInit() {
@@ -162,5 +203,11 @@ export class MainMenuComponent implements OnInit {
     if (authroles) {
       return authroles.url;
     }
+  }
+
+  navigateToAnnoucements() {
+    this.notificationCount = 0;
+    localStorage.setItem(this.userService.userid, this.notificationCount);
+    this.router.navigate(['../announcement/inbox/1']);
   }
 }

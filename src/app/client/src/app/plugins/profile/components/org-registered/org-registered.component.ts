@@ -89,7 +89,7 @@ export class OrgRegisteredComponent implements OnInit {
       this.newOorganisationId = res.result.organisationId;
       this.newOrgName  = this.orgReg.value.orgName;
       this.showLoader = false;
-      this.toasterService.success(this.resourceService.messages.smsg.m0045);
+      this.toasterService.success(this.resourceService.messages.smsg.m0050);
     },
     err => {
       this.showLoader = false;

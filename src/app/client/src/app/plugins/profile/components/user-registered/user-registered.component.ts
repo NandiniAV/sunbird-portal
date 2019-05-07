@@ -170,7 +170,7 @@ export class UserRegisteredComponent implements OnInit {
     this.profileService.mapMemberOrg(reqdata).pipe(
       takeUntil(this.unsubscribe$))
       .subscribe(res => {
-        this.toasterService.success(this.resourceService.messages.smsg.m0046);
+        this.toasterService.success(this.resourceService.messages.smsg.m0049);
         this.router.navigate([this.redirectUrl]);
     },
     err => {

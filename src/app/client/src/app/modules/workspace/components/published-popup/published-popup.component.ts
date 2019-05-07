@@ -12,7 +12,8 @@ import { WorkSpaceService, ReviewCommentsService } from './../../services';
  */
 @Component({
   selector: 'app-published-popup',
-  templateUrl: './published-popup.component.html'
+  templateUrl: './published-popup.component.html',
+  styleUrls: ['./published-popup.component.scss']
 })
 export class PublishedPopupComponent implements OnInit {
   @ViewChild('modal') modal;
@@ -252,5 +253,17 @@ export class PublishedPopupComponent implements OnInit {
     this.showloader = false;
     this.toasterService.error(this.resourceService.messages.emsg.m0005);
     this.redirect();
+  }
+
+    /**
+   *Forwater related changes - This method checked reason into a array
+   */
+  checkedArray(checkedItem) {
+    console.log('checked item', checkedItem);
+    if (checkedItem && (_.indexOf(this.reasons, checkedItem) === -1)) {
+      return false;
+    } else if (checkedItem && (_.indexOf(this.reasons, checkedItem) !== -1)) {
+      return true;
+    }
   }
 }

@@ -15,7 +15,8 @@ import { Subject } from 'rxjs';
  */
 @Component({
   selector: 'app-request-changes-popup',
-  templateUrl: './request-changes-popup.component.html'
+  templateUrl: './request-changes-popup.component.html',
+  styleUrls: ['./request-changes-popup.component.scss']
 })
 export class RequestChangesPopupComponent implements OnInit, OnDestroy {
   @ViewChild('modal') modal;
@@ -229,5 +230,17 @@ export class RequestChangesPopupComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
+  }
+
+  /**
+   * This method pushes all the checked reason into a array
+   */
+  checkedArray(checkedItem) {
+    console.log('checked item', checkedItem);
+    if (checkedItem && (_.indexOf(this.reasons, checkedItem) === -1)) {
+      return false;
+    } else if (checkedItem && (_.indexOf(this.reasons, checkedItem) !== -1)) {
+      return true;
+    }
   }
 }

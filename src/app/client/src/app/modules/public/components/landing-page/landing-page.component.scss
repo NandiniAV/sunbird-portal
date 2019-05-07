@@ -23,7 +23,11 @@
     opacity: 0.2;
 }
 .ui.card .article-header-padding {
-    padding: 0 0 1em 1em;
+    // padding: 0 0 1em 1em;
+    padding: 0.8em 0.8em 0;
     font-weight: bold;
     font-size: 1.25em;
+}
+.expand-or-minimize {
+    font-size: 0.8em !important;
 }
